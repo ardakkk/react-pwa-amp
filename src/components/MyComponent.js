@@ -1,8 +1,12 @@
 import React from 'react'
-import '../style/styles.css'
+import 'style/styles.scss'
+import Logo from 'img/logo.png'
 
 const MyComponent = () => (
-    <h1>Hello from My Component!</h1>
+    <div>
+        <h1>Hello from My Component!</h1>
+        <img src={Logo} alt="logo" />
+    </div>
 )
 
 export default MyComponent

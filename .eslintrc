@@ -16,5 +16,12 @@
         }
       ],
       "react/jsx-indent": [true, 4]
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": ["src", "src/assets"]
+        }
+      }
     }
   }

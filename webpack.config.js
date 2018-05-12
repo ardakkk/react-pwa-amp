@@ -3,7 +3,8 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const htmlWebpackPlugin = new HtmlWebpackPlugin({
     template: path.join(__dirname, "./public/index.html"),
-    filename: "./index.html"
+    filename: "./index.html",
+    title: 'caching'
 });
 
 const VENDOR_LIBS = [
@@ -11,13 +12,15 @@ const VENDOR_LIBS = [
 ];
 
 module.exports = {
+    context:path.resolve(__dirname, "src"),
     entry: {
-        app: './src/index.js',
+        app: './index.js',
         vendor: VENDOR_LIBS
     },
     output: {
         path: path.join(__dirname, "/dist"),
-        filename: "[name].bundle.js"
+        publicPath: '/',
+        filename: "[name].[hash].js"
     },
     module: {
         rules: [
@@ -32,17 +35,30 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.css$/,
-                use: ["style-loader", "css-loader"]
+                test: /\.scss$/,
+                use: ["style-loader", "css-loader", "sass-loader"]
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                  {
+                    loader: 'file-loader',
+                    options: {
+                            name: '[path][name].[ext]',
+                            outputPath: 'images/'
+                        }
+                    }
+                ]
             }
         ]
     },
     plugins: [ 
         htmlWebpackPlugin,
         new webpack.optimize.SplitChunksPlugin({
-            name: "vendors",
+            name: ['vendors', 'manifest'],
             filename: "vendors.bundle.js"
-        })
+        }),
+        new webpack.HashedModuleIdsPlugin()
     ],
     optimization: {
         splitChunks: {
@@ -52,7 +68,11 @@ module.exports = {
         }
     },
     resolve: {
-        extensions: [".js", ".jsx"]
+        extensions: [".js", ".jsx"],
+        alias: {
+            style: path.resolve(__dirname, 'src/assets/style'),
+            img: path.resolve(__dirname, 'src/assets/img')
+        }
     },
     devServer: {
         port: 3001
