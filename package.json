@@ -44,14 +44,14 @@
   },
   "config": {
     "deployToGit": {
-        "repository": "git@github.com:ardakkk/react-pwa-amp.git",
+        "repository": "git@github.com:owner/your-repo.git",
         "branch": "dev",
         "folder": "build",
         "script": "npm run build",
         "commit": "Automatic commit text",
         "user": {
-            "email": "ardakfuse@gmail.com",
-            "name": "Ardak"
+            "email": "your email",
+            "name": "your name"
         }
     }
   }
