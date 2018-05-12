@@ -1,5 +1,5 @@
-Hello my name is Ardak!This is package for how wants use 
-React with Accelarated Mobile Pages(AMP) and Progressive Web Apps(PWA's)!
+Hello! This is package for how wants use 
+React with Accelerated Mobile Pages(AMP) and Progressive Web Apps(PWA's)!
 
 
 How to use it!
