@@ -1,0 +1,58 @@
+{
+  "name": "pwa-amp-react",
+  "version": "1.0.0",
+  "description": "React with AMP and PWA",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "webpack-dev-server --open --mode development",
+    "transpile": "babel src -d dist --copy-files",
+    "prepublishOnly": "npm run transpile",
+    "build": "webpack --mode production",
+    "deploy": "deploy-to-git",
+    "publish-demo": "npm run build && npm run deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ardakkk/react-pwa-amp/"
+  },
+  "author": "Ardak Tileu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ardakkk/react-pwa-amp/issues"
+  },
+  "homepage": "https://github.com/ardakkk/react-pwa-amp#readme",
+  "peerDependencies": {
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "deploy-to-git": "^0.1.5",
+    "gh-pages": "^1.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.8.2",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "config": {
+    "deployToGit": {
+        "repository": "git@github.com:ardakkk/react-pwa-amp.git",
+        "branch": "dev",
+        "folder": "build",
+        "script": "npm run build",
+        "commit": "Automatic commit text",
+        "user": {
+            "email": "ardakfuse@gmail.com",
+            "name": "Ardak"
+        }
+    }
+  }
+}
