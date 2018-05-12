@@ -1,7 +1,8 @@
 import React from 'react';
 import { render} from 'react-dom';
-import MyComponent from './components/MyComponent';
-const App = () => (
-    <MyComponent />
+import App from './App';
+
+const Index = () => (
+    <App />
 );
-render(<App />, document.getElementById("root"));
+render(<Index />, document.getElementById("root"));

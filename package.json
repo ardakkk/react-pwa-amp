@@ -4,7 +4,7 @@
   "description": "React with AMP and PWA",
   "main": "dist/index.js",
   "scripts": {
-    "start": "webpack-dev-server --open --mode development",
+    "dev": "webpack-dev-server --open --mode development --hot",
     "transpile": "babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile",
     "build": "webpack --mode production",
@@ -44,15 +44,18 @@
   },
   "config": {
     "deployToGit": {
-        "repository": "git@github.com:owner/your-repo.git",
-        "branch": "dev",
-        "folder": "build",
-        "script": "npm run build",
-        "commit": "Automatic commit text",
-        "user": {
-            "email": "your email",
-            "name": "your name"
-        }
+      "repository": "git@github.com:owner/your-repo.git",
+      "branch": "dev",
+      "folder": "build",
+      "script": "npm run build",
+      "commit": "Automatic commit text",
+      "user": {
+        "email": "your email",
+        "name": "your name"
+      }
     }
+  },
+  "dependencies": {
+    "react-hot-loader": "^4.1.3"
   }
 }
