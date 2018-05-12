@@ -1,14 +1,23 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const htmlWebpackPlugin = new HtmlWebpackPlugin({
     template: path.join(__dirname, "./public/index.html"),
     filename: "./index.html"
 });
+
+const VENDOR_LIBS = [
+    'react', 'react-dom', 'prop-types', 'react-hot-loader'
+];
+
 module.exports = {
-    entry: path.join(__dirname, "./src/index.js"),
+    entry: {
+        app: './src/index.js',
+        vendor: VENDOR_LIBS
+    },
     output: {
         path: path.join(__dirname, "/dist"),
-        filename: "bundle.js"
+        filename: "[name].bundle.js"
     },
     module: {
         rules: [
@@ -28,7 +37,20 @@ module.exports = {
             }
         ]
     },
-    plugins: [htmlWebpackPlugin],
+    plugins: [ 
+        htmlWebpackPlugin,
+        new webpack.optimize.SplitChunksPlugin({
+            name: "vendors",
+            filename: "vendors.bundle.js"
+        })
+    ],
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: { test: /[\\/]node_modules[\\/]/, name: "vendors", chunks: "all" }
+            }
+        }
+    },
     resolve: {
         extensions: [".js", ".jsx"]
     },
