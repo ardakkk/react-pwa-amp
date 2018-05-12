@@ -1,8 +1,7 @@
-import React from 'react';
-import { render} from 'react-dom';
-import App from './App';
+import React from 'react'
+import { render } from 'react-dom'
 
-const Index = () => (
-    <App />
-);
-render(<Index />, document.getElementById("root"));
+import App from './App'
+
+const root = document.getElementById('root')
+if (root) render(<App />, root)
