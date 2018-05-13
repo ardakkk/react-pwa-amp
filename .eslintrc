@@ -6,6 +6,8 @@
     "extends": "airbnb",
     "parser": "babel-eslint",
     "rules": {
+      "no-console": "off",
+      "no-param-reassign": 0,
       "semi": [1, "never"],
       "max-len": [1, 80],
       "arrow-parens": [2, "as-needed"],

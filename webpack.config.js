@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ManifestPlugin = require('webpack-manifest-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const htmlWebpackPlugin = new HtmlWebpackPlugin({
     template: path.join(__dirname, "./public/index.html"),
     filename: "./index.html",
@@ -8,7 +10,7 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
 });
 
 const VENDOR_LIBS = [
-    'react', 'react-dom', 'prop-types', 'react-hot-loader'
+    'react', 'react-dom', 'prop-types', 'react-hot-loader', 'webpack-manifest-plugin'
 ];
 
 module.exports = {
@@ -58,7 +60,23 @@ module.exports = {
             name: ['vendors', 'manifest'],
             filename: "vendors.bundle.js"
         }),
-        new webpack.HashedModuleIdsPlugin()
+        new webpack.HashedModuleIdsPlugin(),
+        new ManifestPlugin({
+            filename: 'asset-manifest.json'
+        }),
+        new SWPrecacheWebpackPlugin({
+            dontCacheBustUrlsMatching: /\.\w{8}\./,
+            filename: 'service-worker.js',
+            logger(message) {
+              if (message.indexOf('Total precache size is') === 0) {
+                return;
+              }
+              console.log(message);
+            },
+            minify: true,
+            navigateFallback: 'index.html',
+            staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+          })
     ],
     optimization: {
         splitChunks: {
