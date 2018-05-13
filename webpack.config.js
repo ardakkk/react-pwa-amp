@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ManifestPlugin = require('webpack-manifest-plugin');
+const GenerateJsonFile = require('generate-json-file-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const htmlWebpackPlugin = new HtmlWebpackPlugin({
     template: path.join(__dirname, "./public/index.html"),
@@ -10,7 +11,7 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
 });
 
 const VENDOR_LIBS = [
-    'react', 'react-dom', 'prop-types', 'react-hot-loader', 'webpack-manifest-plugin'
+    'react', 'react-dom', 'prop-types', 'react-hot-loader'
 ];
 
 module.exports = {
@@ -51,6 +52,11 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                type: 'javascript/auto',
+                test: /\.json$/,
+                use: 'json-loader'
             }
         ]
     },
@@ -62,7 +68,8 @@ module.exports = {
         }),
         new webpack.HashedModuleIdsPlugin(),
         new ManifestPlugin({
-            filename: 'asset-manifest.json'
+            basePath: '/bundle',
+            fileName: 'asset-manifest.json'
         }),
         new SWPrecacheWebpackPlugin({
             dontCacheBustUrlsMatching: /\.\w{8}\./,
@@ -74,9 +81,13 @@ module.exports = {
               console.log(message);
             },
             minify: true,
-            navigateFallback: 'index.html',
+            navigateFallback: '/index.html',
             staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
-          })
+        }),
+        new GenerateJsonFile({
+            filename: 'manifest.json',
+            jsonFile: './public/manifest.json'
+        })
     ],
     optimization: {
         splitChunks: {
