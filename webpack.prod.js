@@ -7,16 +7,30 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const htmlWebpackPlugin = new HtmlWebpackPlugin({
     template: path.join(__dirname, "./public/index.html"),
+    inject: true,
     filename: "./index.html",
-    title: 'caching'
+    title: 'caching',
+    minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+    }
 });
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const autoprefixer = require('autoprefixer');
 
 const VENDOR_LIBS = [
     'react', 'react-dom', 'prop-types', 'react-hot-loader'
 ];
 
-module.exports = {
+module.exports = {  
     context:path.resolve(__dirname, "./src"),
     entry: {
         app: './index.js',
@@ -25,7 +39,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, "./dist"),
         publicPath: '/',
-        filename: "[name].[hash].js"
+        filename: "js/[name].[hash].js"
     },
     module: {
         rules: [
@@ -41,12 +55,26 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+                use: [MiniCssExtractPlugin.loader, 
+                    "css-loader", 
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: [
+                                autoprefixer({
+                                    browsers: ['ie >= 8', 'last 4 version']
+                                })
+                            ],
+                            sourceMap: true
+                        }
+                    },
+                    "sass-loader"
+                ]
             },
             {
                 test: /\.(png|jpg|gif)$/,
                 use: [
-                  {
+                {
                     loader: 'file-loader',
                     options: {
                             name: '[path][name].[ext]',
@@ -73,7 +101,7 @@ module.exports = {
         htmlWebpackPlugin,
         new MiniCssExtractPlugin({  
             filename: 'css/[name].css',
-          }),
+        }),
         new webpack.optimize.SplitChunksPlugin({
             name: ['vendors', 'manifest'],
             filename: "vendors.bundle.js"
@@ -109,7 +137,7 @@ module.exports = {
                     test: /\.css$/,
                     chunks: 'all',
                     enforce: true
-                  }
+                }
             }
         },
         minimizer: [

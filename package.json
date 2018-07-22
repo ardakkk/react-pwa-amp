@@ -27,6 +27,7 @@
     "react-dom": "^16.3.2"
   },
   "devDependencies": {
+    "autoprefixer": "^9.0.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
@@ -51,6 +52,7 @@
     "mini-css-extract-plugin": "^0.4.1",
     "node-sass": "^4.9.0",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
+    "postcss-loader": "^2.1.6",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "sass-loader": "^7.0.1",

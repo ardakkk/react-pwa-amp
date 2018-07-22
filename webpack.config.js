@@ -9,6 +9,7 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
     filename: "./index.html",
     title: 'caching'
 });
+const autoprefixer = require('autoprefixer');
 
 const VENDOR_LIBS = [
     'react', 'react-dom', 'prop-types', 'react-hot-loader'
@@ -39,7 +40,21 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: ["style-loader", "css-loader", "sass-loader"]
+                use: ["style-loader",
+                    "css-loader",
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: [
+                                autoprefixer({
+                                    browsers: ['ie >= 8', 'last 4 version']
+                                })
+                            ],
+                            sourceMap: true
+                        }
+                    },
+                    "sass-loader"
+                ]
             },
             {
                 test: /\.(png|jpg|gif)$/,
@@ -104,6 +119,10 @@ module.exports = {
         }
     },
     devServer: {
-        port: 3001
+        port: 3001,
+        hot: true,
+        compress: true,
+        contentBase: 'dist',
+        overlay: true
     }
 };
